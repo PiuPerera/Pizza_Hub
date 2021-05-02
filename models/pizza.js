@@ -1,9 +1,32 @@
 const moongose = require("mongoose");
 
 const pizzaSchema = new moongose.Schema({
-    name: String,
+    name: {
+        type: String,
+        required: true,
+        minlength: 3,
+        maxlength: 100
+    },
     ingredients: [String],
-    size: String,
-    price: Number,
-    availability: Boolean,
+    size: {
+        type: String,
+        required: true,
+        minlength: 3
+    },
+    price: {
+        type: Number,
+        required: true,
+    },
+    availability: {
+        type: Boolean,
+        required: true
+    },
+    imageUrl: {
+        type: String,
+        required: true
+    }
 });
+
+const Pizza = moongose.model("PizzaHub", pizzaSchema);
+
+module.exports = Pizza;

@@ -2,8 +2,8 @@ const express = require('express');
 const mongoose = require("mongoose");
 const customeMiddleware_01 = require("./middlewear/customeMiddleware_01");
 const customeMiddleware_02 = require("./middlewear/customeMiddleware_02");
-const pizzas = require("./routes/products/pizzas");
-const home = require("./routes/products/home");
+const pizzas = require("./routes/pizzas");
+const home = require("./routes/home");
 const app = express();
 const PORT = 3000;
 

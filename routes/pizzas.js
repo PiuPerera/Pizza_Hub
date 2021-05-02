@@ -1,4 +1,6 @@
+const { request } = require("express");
 const express = require("express");
+const Pizza = require("../models/pizza");
 const router = express.Router();
 
 let PizzaArray = [
@@ -8,8 +10,15 @@ let PizzaArray = [
     {id: 4, name: "Pizza 4"},
 ];
 
-router.get("/", (req, res) => {
-    return res.send(PizzaArray);
+router.get("/", async (req, res) => {
+    try{
+        let pizzas = await Pizza.find()
+        return res.send(pizzas);
+    }
+    catch(err){
+        return res.send("Error :", err.message).status(500);
+    }
+    
 });
 
 router.get("/:id", (req, res) => {
@@ -33,15 +42,20 @@ router.put("/:id", (req, res) => {
     return res.send(pizza).status(200);
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
     if(!req.body.name){
         return res.send("Bad request").status(400);
     }
-    let newPizza = {
-        id: PizzaArray.length + 1,
-        name: req.body.name
-    }
-    PizzaArray.push(newPizza);
+    
+    newPizza = new Pizza({
+        name: req.body.name,
+        ingredients: req.body.ingredients,
+        size: req.body.size,
+        price: req.body.price,
+        availability: req.body.availability,
+        imageUrl: req.body.imageUrl
+    });
+    newPizza = await newPizza.save();
     return res.send(newPizza).status(200);
 });
 
